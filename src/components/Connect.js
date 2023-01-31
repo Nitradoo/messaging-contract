@@ -152,7 +152,7 @@ function App() {
                                 </div>
                             </div>
                         ) : (
-                            <p> app logo</p>
+                            <p className="text-center text-xl font-semibold">Connect wallet:</p>
                         )}
                         {isConnected ? (
                             <div>
