@@ -209,9 +209,11 @@ function App() {
                                 )}
                             </div>
                         ) : (
+                        <div className='w-full h-full flex justify-center items-center'>
                             <button className="btn" onClick={connectWallet}>
                                 Connect
                             </button>
+                        </div>
                         )}
                     </div>
                 ) : (
