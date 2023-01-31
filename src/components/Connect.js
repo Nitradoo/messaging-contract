@@ -14,7 +14,7 @@ function App() {
     const [sendingMessage, setSendingMessage] = useState(false);
 
 
-    const contractAddress = "0xbd784e82546e679D3d0AFB06a543a6D9788a8259";
+    const contractAddress = "0xDC6481b0925e12B6CB8BCEe92485e2D8AB37D794";
 
 
     const handleChange = (event) => {
@@ -186,8 +186,8 @@ function App() {
                                                 <tr>
                                                     <th>Sender</th>
                                                     <th>Timestamp</th>
-                                                    <th>Message</th>
                                                     <th>Name</th>
+                                                    <th>Message</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -199,8 +199,8 @@ function App() {
                                                             </a>
                                                         </td>
                                                         <td>{item.timestamp}</td>
-                                                        <td>{item.message}</td>
                                                         <td>{item.name}</td>
+                                                        <td>{item.message}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
