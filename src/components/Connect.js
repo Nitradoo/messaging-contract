@@ -12,6 +12,7 @@ function App() {
     const [messageValue, setMessageValue] = useState("");
     const [nameValue, setNameValue] = useState("");
     const [sendingMessage, setSendingMessage] = useState(false);
+    const [network, setNetwork] = useState("");
 
 
     const contractAddress = "0xDC6481b0925e12B6CB8BCEe92485e2D8AB37D794";
@@ -27,8 +28,38 @@ function App() {
 
     useEffect(() => {
         const { ethereum } = window;
+        if(ethereum){
+
+        
         let provider = new ethers.providers.Web3Provider(ethereum);
         let contract = new ethers.Contract(contractAddress, MessageABI, provider);
+        (async () => {
+            setNetwork(await provider.getNetwork());
+            let network = await provider.getNetwork();
+            if(network.name !== "sepolia"){
+                ethereum.request({
+                    method: "wallet_switchEthereumChain",
+                    params: [{
+                       chainId: "0xaa36a7"
+                    }]
+                 })
+                    .then(() => {
+                        location.reload();
+                    })
+            }
+            if (ethereum) {
+                console.log('ethereum is available');
+                const accounts = await window.ethereum.request({
+                    method: "eth_accounts",
+                });
+
+                if (accounts.length > 0) {
+                    connectWallet();
+                }
+            }
+        
+        
+        
         contract.on("NewMessage", async () => {
             await getMessages();
           });
@@ -40,18 +71,8 @@ function App() {
             sethaveMetamask(true);
         };
         checkMetamaskAvailability();
-        (async () => {
-            if (ethereum) {
-                console.log('ethereum is available');
-                const accounts = await window.ethereum.request({
-                    method: "eth_accounts",
-                });
-
-                if (accounts.length > 0) {
-                    connectWallet();
-                }
-            }
-        })();
+    })();
+    }
     }, []);
 
     const connectWallet = async () => {
@@ -70,6 +91,7 @@ function App() {
             let bal = ethers.utils.formatEther(balance);
             setAccountAddress(accounts[0]);
             setAccountBalance(bal);
+            setNetwork(await provider.getNetwork());
             setIsConnected(true);
         } catch (error) {
             setIsConnected(false);
@@ -149,6 +171,10 @@ function App() {
                                 <div className="">
                                     <h3>Wallet Balance:</h3>
                                     <p>{accountBalance}</p>
+                                </div>
+                                <div className=''>
+                                    <h3>Network:</h3>
+                                    <p>{network.name}</p>
                                 </div>
                             </div>
                         ) : (
